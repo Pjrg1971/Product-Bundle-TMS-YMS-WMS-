@@ -1,0 +1,34 @@
+{
+  "name": "cowork-logistics-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Unified logistics platform — TMS + WMS + YMS with shared PostgreSQL backend",
+  "workspaces": [
+    "services/shared",
+    "services/gateway",
+    "services/tms",
+    "services/tms/server",
+    "services/tms/client"
+  ],
+  "scripts": {
+    "db:migrate": "bash scripts/migrate.sh",
+    "db:seed": "bash scripts/seed.sh",
+    "db:reset": "bash scripts/reset-db.sh",
+    "dev": "concurrently -n gateway,tms,wms,yms -c blue,green,yellow,magenta \"npm run dev:gateway\" \"npm run dev:tms\" \"npm run dev:wms\" \"npm run dev:yms\"",
+    "dev:gateway": "cd services/gateway && npm run dev",
+    "dev:tms": "cd services/tms && npm run dev",
+    "dev:wms": "cd services/wms/backend && uvicorn app.main:app --reload --port 8000",
+    "dev:yms": "cd services/yms/server && node index.js",
+    "build:shared": "cd services/shared && npm run build",
+    "build:gateway": "cd services/gateway && npm run build",
+    "build:tms": "cd services/tms && npm run build",
+    "build": "npm run build:shared && npm run build:gateway && npm run build:tms",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "setup": "npm install && npm run build:shared && npm run db:migrate && npm run db:seed"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

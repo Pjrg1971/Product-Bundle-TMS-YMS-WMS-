@@ -1,0 +1,100 @@
+version: "3.9"
+
+services:
+  # ── PostgreSQL (shared database) ─────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: cowork-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-cowork_logistics}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── API Gateway ──────────────────────────────────────────────
+  gateway:
+    build:
+      context: ./services/gateway
+      dockerfile: Dockerfile
+    container_name: cowork-gateway
+    restart: unless-stopped
+    ports:
+      - "${GATEWAY_PORT:-3000}:3000"
+    environment:
+      PORT: 3000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-cowork_logistics}
+      TMS_URL: http://tms:4100
+      WMS_URL: http://wms:8000
+      YMS_URL: http://yms:4000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ── TMS (Transportation Management System) ───────────────────
+  tms:
+    build:
+      context: ./services/tms
+      dockerfile: Dockerfile
+    container_name: cowork-tms
+    restart: unless-stopped
+    ports:
+      - "${TMS_PORT:-4100}:4100"
+    environment:
+      PORT: 4100
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-cowork_logistics}
+      USE_POSTGRES: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ── WMS (Warehouse Management System) ────────────────────────
+  wms:
+    build:
+      context: ./services/wms/backend
+      dockerfile: Dockerfile
+    container_name: cowork-wms
+    restart: unless-stopped
+    ports:
+      - "${WMS_PORT:-8000}:8000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-cowork_logistics}
+      DB_SCHEMA: wms
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ── YMS (Yard Management System) ─────────────────────────────
+  yms:
+    build:
+      context: ./services/yms/server
+      dockerfile: Dockerfile
+    container_name: cowork-yms
+    restart: unless-stopped
+    ports:
+      - "${YMS_PORT:-4000}:4000"
+    environment:
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-cowork_logistics}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN:-http://localhost:3000}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+    driver: local
