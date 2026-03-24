@@ -1,0 +1,15 @@
+{
+  "name": "@cowork/yms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Yard Management System (YMS) — Cowork Logistics Platform",
+  "scripts": {
+    "start": "cd server && node index.js",
+    "dev": "cd server && npx nodemon index.js",
+    "install:server": "cd server && npm install",
+    "postinstall": "npm run install:server"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
