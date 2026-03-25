@@ -1,6 +1,6 @@
 interface TimelineMilestone {
   code: string;
-  occurredAt: string;
+  occurredAt?: string;
   facilityId?: string;
   notes?: string;
 }
