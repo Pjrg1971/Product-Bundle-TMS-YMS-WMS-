@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes, useLocation } from 'react-router-dom'
 
 import { AppLayout } from './layouts/AppLayout'
 import { AmazonCompliancePage } from './pages/AmazonCompliancePage'
@@ -14,16 +14,27 @@ const nav = [
 ]
 
 export default function App() {
+  const location = useLocation()
+
   return (
     <AppLayout
       sidebar={
         <nav>
-          <h2>WMS Platform</h2>
-          {nav.map((item) => (
-            <Link key={item.to} className="nav-link" to={item.to}>
-              {item.label}
-            </Link>
-          ))}
+          <h2 className="text-lg font-bold text-cl-text mb-6">WMS Platform</h2>
+          {nav.map((item) => {
+            const isActive = location.pathname === item.to
+            return (
+              <Link
+                key={item.to}
+                className={`block text-cl-text-secondary no-underline px-3 py-2.5 rounded-lg mb-1 transition-colors hover:bg-white/[0.06] hover:text-cl-text ${
+                  isActive ? 'bg-cl-accent/10 text-cl-accent' : ''
+                }`}
+                to={item.to}
+              >
+                {item.label}
+              </Link>
+            )
+          })}
         </nav>
       }
     >

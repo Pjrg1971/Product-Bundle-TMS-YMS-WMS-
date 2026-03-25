@@ -33,7 +33,7 @@ export default function TimelineView({
 }: TimelineViewProps) {
   if (milestones.length === 0) {
     return (
-      <div className="text-tms-muted text-sm p-4">No milestones recorded.</div>
+      <div className="text-cl-muted text-sm p-4">No milestones recorded.</div>
     );
   }
 
@@ -53,14 +53,14 @@ export default function TimelineView({
         let lineClasses = '';
 
         if (isCompleted && !isCurrent) {
-          dotClasses = 'bg-tms-success border-tms-success';
-          lineClasses = 'bg-tms-success';
+          dotClasses = 'bg-cl-success border-cl-success';
+          lineClasses = 'bg-cl-success';
         } else if (isCurrent) {
-          dotClasses = 'bg-tms-accent border-tms-accent animate-pulse';
-          lineClasses = 'bg-tms-panel';
+          dotClasses = 'bg-cl-accent border-cl-accent animate-pulse';
+          lineClasses = 'bg-cl-panel';
         } else {
-          dotClasses = 'bg-tms-panel border-tms-panel';
-          lineClasses = 'bg-tms-panel';
+          dotClasses = 'bg-cl-panel border-cl-panel';
+          lineClasses = 'bg-cl-panel';
         }
 
         return (
@@ -99,17 +99,17 @@ export default function TimelineView({
             <div className={`min-w-0 ${isFuture ? 'opacity-40' : ''}`}>
               <p
                 className={`text-sm font-semibold ${
-                  isCurrent ? 'text-tms-accent' : 'text-slate-200'
+                  isCurrent ? 'text-cl-accent' : 'text-slate-200'
                 }`}
               >
                 {formatMilestoneCode(milestone.code)}
                 {isCurrent && (
-                  <span className="ml-2 text-xs font-normal text-tms-accent">
+                  <span className="ml-2 text-xs font-normal text-cl-accent">
                     ({currentStatus})
                   </span>
                 )}
               </p>
-              <p className="text-xs text-tms-muted mt-0.5">
+              <p className="text-xs text-cl-muted mt-0.5">
                 {milestone.occurredAt
                   ? formatTimestamp(milestone.occurredAt)
                   : 'Pending'}

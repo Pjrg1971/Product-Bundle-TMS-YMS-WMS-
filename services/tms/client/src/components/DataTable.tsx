@@ -21,22 +21,22 @@ export default function DataTable<T extends Record<string, unknown>>({
 }: DataTableProps<T>) {
   if (data.length === 0) {
     return (
-      <div className="bg-tms-dark border border-tms-panel rounded-xl p-12 text-center">
-        <p className="text-tms-muted text-sm">{emptyMessage || 'No data'}</p>
+      <div className="bg-cl-dark border border-cl-panel rounded-xl p-12 text-center">
+        <p className="text-cl-muted text-sm">{emptyMessage || 'No data'}</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-tms-dark border border-tms-panel rounded-xl overflow-hidden">
+    <div className="bg-cl-dark border border-cl-panel rounded-xl overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-tms-panel">
+            <tr className="border-b border-cl-panel">
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="text-left text-xs font-semibold text-tms-muted uppercase tracking-wider px-4 py-3"
+                  className="text-left text-xs font-semibold text-cl-muted uppercase tracking-wider px-4 py-3"
                 >
                   {col.label}
                 </th>
@@ -48,12 +48,12 @@ export default function DataTable<T extends Record<string, unknown>>({
               <tr
                 key={idx}
                 onClick={() => onRowClick?.(row)}
-                className={`border-b border-tms-panel/50 last:border-0 transition-colors ${
-                  idx % 2 === 0 ? 'bg-tms-dark' : 'bg-tms-navy/30'
+                className={`border-b border-cl-panel/50 last:border-0 transition-colors ${
+                  idx % 2 === 0 ? 'bg-cl-dark' : 'bg-cl-navy/30'
                 } ${
                   onRowClick
-                    ? 'cursor-pointer hover:bg-tms-accent/10'
-                    : 'hover:bg-tms-panel/30'
+                    ? 'cursor-pointer hover:bg-cl-accent/10'
+                    : 'hover:bg-cl-panel/30'
                 }`}
               >
                 {columns.map((col) => (

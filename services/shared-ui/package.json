@@ -1,0 +1,7 @@
+{
+  "name": "@cowork/shared-ui",
+  "version": "1.0.0",
+  "private": true,
+  "main": "tailwind-preset.js",
+  "files": ["tailwind-preset.js", "base.css"]
+}

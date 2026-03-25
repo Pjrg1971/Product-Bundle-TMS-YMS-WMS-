@@ -13,19 +13,31 @@ type Props<T> = {
 
 export function DataTable<T>({ columns, rows }: Props<T>) {
   return (
-    <table className="table">
+    <table className="w-full text-sm">
       <thead>
-        <tr>
+        <tr className="bg-cl-panel/50">
           {columns.map((column) => (
-            <th key={column.key}>{column.header}</th>
+            <th
+              key={column.key}
+              className="text-cl-muted text-xs font-medium uppercase tracking-wider px-4 py-3 text-left"
+            >
+              {column.header}
+            </th>
           ))}
         </tr>
       </thead>
       <tbody>
         {rows.map((row, index) => (
-          <tr key={index}>
+          <tr
+            key={index}
+            className={`${
+              index % 2 === 0 ? 'bg-cl-dark' : 'bg-cl-navy/30'
+            } hover:bg-cl-surface/30 transition-colors border-b border-cl-panel/50`}
+          >
             {columns.map((column) => (
-              <td key={column.key}>{column.render(row)}</td>
+              <td key={column.key} className="px-4 py-3 text-cl-text-secondary">
+                {column.render(row)}
+              </td>
             ))}
           </tr>
         ))}

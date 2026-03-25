@@ -12,30 +12,30 @@ export function ShipmentDetailPage() {
   }, [shipmentId])
 
   return (
-    <div className="grid">
-      <div className="section-header">
+    <div>
+      <div className="flex justify-between items-center mb-6">
         <div>
-          <h1>Shipment Detail</h1>
-          <p>Shipment execution, BOL status, tracking, dock status, and Amazon sync state.</p>
+          <h1 className="text-2xl font-bold text-cl-text">Shipment Detail</h1>
+          <p className="text-cl-text-secondary mt-1">Shipment execution, BOL status, tracking, dock status, and Amazon sync state.</p>
         </div>
-        <span className="badge">Shipment #{shipmentId}</span>
+        <span className="inline-block ml-2 px-2 py-0.5 rounded-full bg-cl-accent/15 text-cl-accent text-xs font-semibold">Shipment #{shipmentId}</span>
       </div>
 
-      <div className="grid grid-2">
-        <div className="card">
-          <h2>Header</h2>
-          <p><strong>Amazon FC:</strong> {shipment?.ship_to_fc_code ?? '---'}</p>
-          <p><strong>Mode:</strong> {shipment?.mode ?? '---'}</p>
-          <p><strong>Status:</strong> {shipment?.status ?? '---'}</p>
-          <p><strong>BOL:</strong> {shipment?.bol_number ?? '---'}</p>
-          <p><strong>PRO:</strong> {shipment?.pro_number ?? '---'}</p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-cl-dark border border-cl-panel rounded-xl p-5">
+          <h2 className="text-lg font-semibold text-cl-text mb-4">Header</h2>
+          <p className="mb-2"><span className="text-cl-muted">Amazon FC:</span> <span className="text-cl-text">{shipment?.ship_to_fc_code ?? '---'}</span></p>
+          <p className="mb-2"><span className="text-cl-muted">Mode:</span> <span className="text-cl-text">{shipment?.mode ?? '---'}</span></p>
+          <p className="mb-2"><span className="text-cl-muted">Status:</span> <span className="text-cl-text">{shipment?.status ?? '---'}</span></p>
+          <p className="mb-2"><span className="text-cl-muted">BOL:</span> <span className="text-cl-text">{shipment?.bol_number ?? '---'}</span></p>
+          <p className="mb-2"><span className="text-cl-muted">PRO:</span> <span className="text-cl-text">{shipment?.pro_number ?? '---'}</span></p>
         </div>
-        <div className="card">
-          <h2>Load profile</h2>
-          <p><strong>Cartons:</strong> {shipment?.carton_count ?? 0}</p>
-          <p><strong>Pallets:</strong> {shipment?.pallet_count ?? 0}</p>
-          <p><strong>Pieces:</strong> {shipment?.piece_count ?? 0}</p>
-          <p><strong>Gross weight:</strong> {shipment?.gross_weight_lb ?? 0} lb</p>
+        <div className="bg-cl-dark border border-cl-panel rounded-xl p-5">
+          <h2 className="text-lg font-semibold text-cl-text mb-4">Load profile</h2>
+          <p className="mb-2"><span className="text-cl-muted">Cartons:</span> <span className="text-cl-text">{shipment?.carton_count ?? 0}</span></p>
+          <p className="mb-2"><span className="text-cl-muted">Pallets:</span> <span className="text-cl-text">{shipment?.pallet_count ?? 0}</span></p>
+          <p className="mb-2"><span className="text-cl-muted">Pieces:</span> <span className="text-cl-text">{shipment?.piece_count ?? 0}</span></p>
+          <p className="mb-2"><span className="text-cl-muted">Gross weight:</span> <span className="text-cl-text">{shipment?.gross_weight_lb ?? 0} lb</span></p>
         </div>
       </div>
     </div>
