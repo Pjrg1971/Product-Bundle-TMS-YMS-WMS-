@@ -47,4 +47,4 @@ docker-compose.override.yml
 *.egg-info/
 .eggs/
 pip-log.txt
-package-lock.json
+# Keep package-lock.json tracked for CI
